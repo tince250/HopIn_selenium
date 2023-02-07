@@ -25,6 +25,8 @@ public class TestOrderRide extends TestBaseDouble{
 	
 	@Test
 	public void testOrderRide_HappyPath() {
+		if (testLogin == null)
+			testLogin = new TestLogin();
 		this.testLogin.testLoginPasseneger();
 		this.testLogin.testLoginDriver();
 		
