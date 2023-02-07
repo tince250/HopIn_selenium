@@ -34,6 +34,9 @@ public class DriverHome {
 	@FindBy(css = "#rejection-dialog button")
 	WebElement rejectBtn;
 	
+	@FindBy(id = "scheduled-time")
+	WebElement scheduledTime;
+	
 	private WebDriver driver;
 	private WebDriverWait wait;
 	
@@ -77,5 +80,9 @@ public class DriverHome {
 	public void clickOnReject() {
 		this.rejectBtn.click();
 	}
-
+	
+	public boolean isCorrectScheduledTime(String expected) {
+		System.out.println(scheduledTime.getText());
+		return wait.until(ExpectedConditions.textToBePresentInElement(scheduledTime, expected));
+	}
 }

@@ -20,6 +20,15 @@ public class PassengerHome {
 	@FindBy(name = "destination")
 	WebElement destinationLocation;
 	
+	@FindBy(name = "time")
+	WebElement timeInput;
+	
+	@FindBy(css = "div.clock-face")
+	WebElement timePickerClockFace;
+	
+	@FindBy(xpath = "//button[@class='timepicker-button']//span[text()='Ok']")
+	WebElement timePickerOK;
+	
 	@FindBy(id = "next-step-btn")
 	WebElement nextBtn;
 	
@@ -47,8 +56,11 @@ public class PassengerHome {
 	@FindBy(id = "laoding-dialog")
 	WebElement loadingDialog;
 	
-	@FindBy(css = "#loading-dialog>h1")
+	@FindBy(css = "#loading-dialog h1")
 	WebElement loadingDialogTitle;
+	
+	@FindBy(css = "#loading-dialog h3.subtitle")
+	WebElement loadingDialogSubtitle;
 	
 	WebElement firstInAutocomplete;
 	
@@ -78,8 +90,23 @@ public class PassengerHome {
 	}
 	
 	public void chooseFirstAutocomplete() {
-		firstInAutocomplete = driver.findElement(By.cssSelector("span.pac-item-query>span.pac-matched"));
-		wait.until(ExpectedConditions.elementToBeClickable(firstInAutocomplete)).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("span.pac-item-query>span.pac-matched"))).click();
+	}
+	
+	public void openTimePicker() {
+		wait.until(ExpectedConditions.elementToBeClickable(timeInput)).click();
+	}
+	
+	public boolean isTimePickerOpened() {
+		return (wait.until(ExpectedConditions.visibilityOf(timePickerClockFace)) != null); 
+	}
+	
+	public void chooseScheduledTime(int hoursToChoose) {
+		driver.findElement(By.xpath("//div[@class='clock-face']//span[text()=' " + hoursToChoose + "']")).click();;
+	}
+	
+	public void clickOnTimePickerOk() {
+		this.timePickerOK.click();
 	}
 	
 	public void clickOnNext() {
@@ -112,7 +139,15 @@ public class PassengerHome {
 	}
 	
 	public boolean isRideConfirmed() {
-		return wait.until(ExpectedConditions.textToBePresentInElement(loadingDialogTitle, "Hooraay!"));
+		return wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#loading-dialog h1"), "Hooraay!"));
+	}
+	
+	public boolean isRideForNow() {
+		return wait.until(ExpectedConditions.textToBePresentInElement(loadingDialogSubtitle, "You'll be redirected to current ride shortly."));
+	}
+	
+	public boolean isRideScheduled(String scheduledTime) {
+		return wait.until(ExpectedConditions.textToBePresentInElement(loadingDialogSubtitle, scheduledTime));
 	}
 	
 	public void clickOnLoadingDialog() {

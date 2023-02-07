@@ -16,8 +16,8 @@ public class TestLogin extends TestBaseDouble {
 	private static final String EMAIL_INVALID= "invalid@gmail.com";
 	private static final String PASSWORD_INVALID= "invalid";
 
-	private static final String EMAIL_PASSENGER = "mika@gmail.com";
-	private static final String EMAIL_DRIVER = "driver@gmail.com";
+	public static final String EMAIL_PASSENGER = "mika@gmail.com";
+	public static final String EMAIL_DRIVER = "driver@gmail.com";
 	private static final String EMAIL_ADMIN = "admin@gmail.com";
 	private static final String PASSWORD = "123";
 	
