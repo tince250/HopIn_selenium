@@ -15,6 +15,8 @@ import hopine2e.pages.PassengerHome;
 public class TestFinishRide extends TestBaseDouble{
 
 	private TestOrderRide testOrderRide;
+	private static final String departure = "Belgrade, Serbia";
+	private static final String destination = "Novi Sad, Serbia";
 	
 	@BeforeClass
 	public void setup() {
@@ -34,8 +36,22 @@ public class TestFinishRide extends TestBaseDouble{
 		assertTrue(currentRidePageDriver.isRideStarted());
 		
 		currentRidePageDriver.clickFinish();
-		assertTrue(currentRidePageDriver.provera());
+		assertTrue(currentRidePageDriver.isRideSuccessfullyFinishedForDriver());
+		
 		assertTrue(currentRidePagePassenger.isRideSuccessfullyFinishedForPassenger());
+		currentRidePagePassenger.closeReviewDialog();
+		
+		assertTrue(currentRidePageDriver.isHomePageOpened());
+		currentRidePageDriver.clickHistory();
+
+		assertTrue(currentRidePagePassenger.isHomePageOpened());
+		currentRidePagePassenger.clickHistory();
+		
+		assertTrue(currentRidePageDriver.isHistoryPageOpened());
+		assertTrue(currentRidePagePassenger.isHistoryPageOpened());
+		
+		assertTrue(currentRidePageDriver.checkIfRideIsInHistory(departure, destination));
+		assertTrue(currentRidePagePassenger.checkIfRideIsInHistory(departure, destination));
 	}
 	
 	

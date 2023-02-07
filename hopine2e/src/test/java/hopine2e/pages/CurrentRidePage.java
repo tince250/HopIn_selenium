@@ -31,15 +31,30 @@ public class CurrentRidePage {
 	@FindBy(id = "ride-review-container")
 	WebElement reviewContainer;
 	
+	@FindBy(css = "a[href='/ride-history']")
+	WebElement historyTag;
+	
+	@FindBy(css = "a[href='#']")
+	WebElement logo;
+	
+	@FindBy(css = "button#closeBtn")
+	WebElement buttonCloseDialog;
+	
 	@FindBy(xpath = "//div[contains(@class, 'current-ride-timer') and contains(.//h1, 'Current ride')]")
 	WebElement currentRideHeader;
+	
+	@FindBy(xpath = "//div[@class='row']//h2[contains(text(), 'Ride history')]")
+	WebElement historyTitle;
+	
+	@FindBy(xpath = "(//div[@id='historyCard'])[1]//h4")
+	WebElement titleOfRide;
 
 	private WebDriver driver;
 	private WebDriverWait wait;
 	
 	public CurrentRidePage(WebDriver driver) {
 		this.driver = driver;		
-		this.wait = new WebDriverWait(driver, 15);
+		this.wait = new WebDriverWait(driver, 20);
 
 		PageFactory.initElements(driver, this);
 	}
@@ -74,11 +89,26 @@ public class CurrentRidePage {
 		return snack.size() != 0;
 	}
 	
-	public boolean provera() {
-		return (wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(., \"Ride finished!\")]"))) != null);
-	}
-	
 	public boolean isRideSuccessfullyFinishedForPassenger() {
 		return (wait.until(ExpectedConditions.visibilityOf(reviewContainer)) != null);
+	}
+	
+	public void clickHistory() {
+		wait.until(ExpectedConditions.elementToBeClickable(historyTag)).click();
+	}
+	
+	public boolean isHomePageOpened() {
+		return (wait.until(ExpectedConditions.elementToBeClickable(logo)) != null);
+	}
+	
+	public void closeReviewDialog() {
+		wait.until(ExpectedConditions.elementToBeClickable(buttonCloseDialog)).click();
+	}
+	
+	public boolean isHistoryPageOpened() {
+		return (wait.until(ExpectedConditions.elementToBeClickable(historyTitle)) != null);
+	}
+	public boolean checkIfRideIsInHistory(String departure, String destination) {
+		return wait.until(ExpectedConditions.textToBePresentInElement(titleOfRide, departure + " -> " + destination));
 	}
 }
