@@ -17,6 +17,9 @@ import hopine2e.pages.PassengerHome;
 public class TestOrderRide extends TestBaseDouble{
 	
 	private TestLogin testLogin;
+	private static final String departure = "Beograd";
+	private static final String destination = "Novi Sad";
+	private static final String rejection_reason = "Tired, need break.";
 	
 	@BeforeClass
 	public void setup() {
@@ -25,13 +28,15 @@ public class TestOrderRide extends TestBaseDouble{
 	
 	@Test
 	public void testOrderRide_HappyPath() {
+		if (testLogin == null)
+			testLogin = new TestLogin();
 		this.testLogin.testLoginPasseneger();
 		this.testLogin.testLoginDriver();
 		
 		PassengerHome passengerHome = new PassengerHome(driver_passenger);
-		passengerHome.enterPickupLocation("Beograd");
+		passengerHome.enterPickupLocation(departure);
 		passengerHome.chooseFirstAutocomplete();
-		passengerHome.enterDestinationLocation("Novi Sad");
+		passengerHome.enterDestinationLocation(destination);
 		passengerHome.chooseFirstAutocomplete();
 		passengerHome.clickOnNext();
 		
@@ -69,9 +74,9 @@ public class TestOrderRide extends TestBaseDouble{
 		this.testLogin.testLoginDriver();
 		
 		PassengerHome passengerHome = new PassengerHome(driver_passenger);
-		passengerHome.enterPickupLocation("Beograd");
+		passengerHome.enterPickupLocation(departure);
 		passengerHome.chooseFirstAutocomplete();
-		passengerHome.enterDestinationLocation("Novi Sad");
+		passengerHome.enterDestinationLocation(destination);
 		passengerHome.chooseFirstAutocomplete();
 		
 		LocalDateTime datetime = LocalDateTime.now();
@@ -121,9 +126,9 @@ public class TestOrderRide extends TestBaseDouble{
 		this.testLogin.testLoginDriver();
 		
 		PassengerHome passengerHome = new PassengerHome(driver_passenger);
-		passengerHome.enterPickupLocation("Beograd");
+		passengerHome.enterPickupLocation(departure);
 		passengerHome.chooseFirstAutocomplete();
-		passengerHome.enterDestinationLocation("Novi Sad");
+		passengerHome.enterDestinationLocation(destination);
 		passengerHome.chooseFirstAutocomplete();
 		passengerHome.clickOnNext();
 		
@@ -141,7 +146,7 @@ public class TestOrderRide extends TestBaseDouble{
 		assertTrue(passengerHome.isLoadingDialogOpened());
 		
 		assertTrue(driverHome.isRejectionDialogLoaded());
-		driverHome.setRejectionReason("Tired, need break.");
+		driverHome.setRejectionReason(rejection_reason);
 		driverHome.clickOnReject();
 		
 		assertTrue(passengerHome.isNoRideDialogOpened());
@@ -153,9 +158,9 @@ public class TestOrderRide extends TestBaseDouble{
 		this.testLogin.testLoginPasseneger();
 		
 		PassengerHome home = new PassengerHome(driver_passenger);
-		home.enterPickupLocation("Beograd");
+		home.enterPickupLocation(departure);
 		driver_passenger.findElements(By.cssSelector(".pac-item")).get(0).click();
-		home.enterDestinationLocation("Novi Sad");
+		home.enterDestinationLocation(destination);
 		home.chooseFirstAutocomplete();
 		home.clickOnNext();
 		
@@ -173,9 +178,9 @@ public class TestOrderRide extends TestBaseDouble{
 		this.testLogin.testLoginDriver();
 		
 		PassengerHome home = new PassengerHome(driver_passenger);
-		home.enterPickupLocation("Beograd");
+		home.enterPickupLocation(departure);
 		driver_passenger.findElements(By.cssSelector(".pac-item")).get(0).click();
-		home.enterDestinationLocation("Novi Sad");
+		home.enterDestinationLocation(destination);
 		home.chooseFirstAutocomplete();
 		home.clickOnNext();
 		
